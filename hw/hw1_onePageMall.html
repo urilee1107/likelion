@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <title>숙제1_원페이지 쇼핑몰 만들기</title>
+
+    <style>
+        .wrap {
+            width: 500px;
+            margin: 10px auto;
+        }
+
+        .colorstyle {
+            color: blue;
+        }
+
+        * {
+            font-family: 'Nanum Gothic';
+        }
+
+        .align {
+            text-align: center;
+        }
+
+        * {
+            font-family: 'Do Hyeon';
+        }
+
+        .fontsize {
+            font-size: small;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <script>
+        function alertbox() {
+            console.log($('#inputGroup_name').val())
+            console.log($('#inputGroup_num').val())
+            console.log($('#inputGroup_add').val())
+            console.log($('#inputGroup_phone').val())
+
+
+            if ($('#inputGroup_name').val() == "") {
+                alert("성함을 입력해주세요.");
+            }
+            else if ($('#inputGroup_num option:selected').text() == "-- 수량을 선택하세요 --") {
+                alert("주문 수량을 입력해주세요");
+            }
+
+            else if ($('#inputGroup_add').val() == "") {
+                alert("배송받을 주소를 입력해주세요");
+            }
+            else if ($('#inputGroup_phone').val() == "") {
+                alert("전화번호를 입력해 주세요");
+            }
+            else if (isNaN(Number($('#inputGroup_phone').val())))
+            {
+                alert("올바른 전화번호가 아닙니다. 숫자만 입력해주세요");
+             } 
+            
+            else {
+                alert("주문이 완료되었습니다! 감사합니다.");
+            }
+        }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            //console.log("ready!");
+            $.ajax({
+                type: "GET",
+                url: " https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    $('#currencyDol').empty();
+                    let cur_dol = response[1]["rate"];
+                    let temp_html = `달러-원 환율 : ${cur_dol} 원`
+                    $('#currencyDol').append(temp_html);
+
+                }
+            })
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <img src="https://cdn.shopify.com/s/files/1/0375/3269/6635/products/B2B_Large_PNG-Adventure-Base-Camp-Cook-Set-SS-Hero-Exploded_1800x1800.png?v=1598821293"
+            class="img-fluid" alt="Responsive image"></span>
+        <div>
+            <h3 class="text-left"><strong>Adventure Full Kitchen Base Camp Cookset</strong>
+                <small class="text-muted text-right">가격: $80.00/set</small>
+                <small class="colorstyle fontsize" id="currencyDol"> 달러-원 환율: 1234.00 원</small>
+            </h3>
+            <div>
+                <p class="text-center"> 캠핑의 하이라이트는 바로 캠핑장에서 먹는 음식!<br>이 세트 하나면 캠핑장에서도 맛있는 음식을 먹을 수 있어요.<br>
+                    일회용품 사용 줄이기에도 같이 동참해요, 우리 :)
+                </p>
+            </div>
+            <div>
+                <h3 class="text-left"><strong>주문하기</strong></h3>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">주문자 이름</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="inputGroup_name">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">수량</label>
+                </div>
+                <select class="custom-select" id="inputGroup_num">
+                    <option selected>-- 수량을 선택하세요 --</option>
+                    <option value="1">1개</option>
+                    <option value="2">2개</option>
+                    <option value="3">3개</option>
+
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">주소</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="inputGroup_add">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">전화번호</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" id="inputGroup_phone">
+            </div>
+            <div class="align">
+                <p class="lead">
+                    <button onclick="alertbox()" class="currencyUpdate"> 주문하기 </button>
+                    <!-- // <a class="btn btn-primary btn-lg" href="#" role="button" onclick="alertbox()">주문하기</a> -->
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
