@@ -20,5 +20,27 @@ movies = soup.select('#old_content > table > tbody > tr')
 for movie in movies:
     a_tag= movie.select_one('td.title > div> a')
     if a_tag is not None:
-        print(a_tag.text)
+        rank = movie.select_one('td:nth-child(1) > img')['alt']
+        title = a_tag.text
+        star = movie.select_one('td.point').text
+        
+        print(rank, title , star)
+
+
+# # 선택자를 사용하는 방법 (copy selector)
+# soup.select('태그명')
+# soup.select('.클래스명')
+# soup.select('#아이디명')
+
+# soup.select('상위태그명 > 하위태그명 > 하위태그명')
+# soup.select('상위태그명.클래스명 > 하위태그명.클래스명')
+
+# # 태그와 속성값으로 찾는 방법
+# soup.select('태그명[속성="값"]')
+
+# # 한 개만 가져오고 싶은 경우
+# soup.select_one('위와 동일')
+
+#old_content > table > tbody > tr:nth-child(2) > td.point
+#old_content > table > tbody > tr:nth-child(2) > td:nth-child(1) > img
 
