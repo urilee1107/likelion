@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
-from pymongo import MongoClient           # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
-client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
-db = client.uriMall                      # 'likelion'라는 이름의 db를 만듭니다.
+from pymongo import MongoClient          
+client = MongoClient('localhost', 27017)  
+db = client.uriMall                      
 
 @app.route('/')
 def home():
@@ -18,15 +18,24 @@ def write_orders():
     cusPhone_receive = request.form['customer_phone_g']
 
     order= {
-        'name':cusName_receive,
-        'numberOforders':numOrder_receive,
-        'address':cusAdd_receive,
-        'phoneNumber': cusPhone_receive
+        '이름':cusName_receive,
+        '수량':numOrder_receive,
+        '주소':cusAdd_receive,
+        '전화번호': cusPhone_receive
     }
 
     db.uriMall.insert_one(order)
 
     return jsonify({'result':'success', 'msg': '이 요청은 POST!'})
+
+
+## DB에 있는 데이터를 불러오는 것
+@app.route('/orders', methods=['GET'])
+def read_orders():
+    orders = list(db.uriMall.find({},{'_id':0}))
+    return jsonify({'result':'success', 'msg': '이 요청은 GET!', 'orders':orders})
+
+
 
 
 if __name__ == '__main__':
